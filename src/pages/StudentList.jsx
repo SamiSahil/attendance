@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FaPlus, FaTrash, FaSync, FaEdit, FaUserCircle } from 'react-icons/fa';
+import { FaPlus, FaTrash, FaSync, FaEdit } from 'react-icons/fa'; // FaUserCircle is no longer needed
 import { useData } from '../contexts/DataContext';
 import { addStudent, updateStudent, deleteStudent, deleteMultipleStudents } from '../services/googleSheetService';
 import Button from '../components/Button';
@@ -7,13 +7,11 @@ import StudentFormModal from '../components/StudentFormModal';
 import DeleteModal from '../components/DeleteModal';
 import SuccessToast from '../components/SuccessToast';
 import './StudentList.css';
+import newAvatar from '../assets/young.png'; // <-- IMPORT THE NEW IMAGE
 
 const StudentList = () => {
-  // --- Central State from Context ---
   const { students, loading: contextLoading, error, refreshData } = useData();
-  
-  // --- UI State for this page ---
-  const [pageLoading, setPageLoading] = useState(false); // For showing 'Updating...' overlay during write operations
+  const [pageLoading, setPageLoading] = useState(false);
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [isFormModalOpen, setFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -23,24 +21,20 @@ const StudentList = () => {
 
   const showToast = (message) => setToastInfo({ isVisible: true, message });
 
-  // --- Initial Data Load ---
   useEffect(() => {
-    // We only need to trigger the refresh from the context
     refreshData();
   }, [refreshData]);
 
-  // --- Handlers for Data Manipulation ---
+  // All handlers (handleSaveStudent, confirmDelete, etc.) remain the same...
   const handleSaveStudent = async (formData) => {
     setFormModalOpen(false);
     setPageLoading(true);
     try {
       let result;
       if (studentToEdit) {
-        // --- PERMANENT EDIT ---
         const dataToUpdate = { ...studentToEdit, ...formData };
         result = await updateStudent(dataToUpdate);
       } else {
-        // --- PERMANENT ADD ---
         const dataToAdd = { Name: formData.name, Class: formData.class, Section: formData.section, Email: formData.email, Phone: formData.phone, 'Guardian Name': formData.guardian };
         result = await addStudent(dataToAdd);
       }
@@ -48,7 +42,7 @@ const StudentList = () => {
     } catch (err) {
       showToast(`Error: ${err.message}`);
     } finally {
-      await refreshData(); // Reload all data from the sheet to reflect changes
+      await refreshData();
       setPageLoading(false);
       setStudentToEdit(null);
     }
@@ -58,7 +52,6 @@ const StudentList = () => {
     setDeleteModalOpen(false);
     setPageLoading(true);
     try {
-      // --- PERMANENT DELETE ---
       const result = await deleteStudent(studentToDelete.rowIndex);
       showToast(result.message);
     } catch (err) {
@@ -71,16 +64,10 @@ const StudentList = () => {
   };
 
   const handleDeleteSelected = async () => {
-    if (selectedStudents.length === 0) {
-      showToast('Please select students to delete.');
-      return;
-    }
+    if (selectedStudents.length === 0) { showToast('Please select students to delete.'); return; }
     setPageLoading(true);
     try {
-      // --- PERMANENT MULTI-DELETE ---
-      const rowsToDelete = students
-        .filter(s => selectedStudents.includes(s.id))
-        .map(s => s.rowIndex);
+      const rowsToDelete = students.filter(s => selectedStudents.includes(s.id)).map(s => s.rowIndex);
       const result = await deleteMultipleStudents(rowsToDelete);
       showToast(result.message);
     } catch (err) {
@@ -91,15 +78,13 @@ const StudentList = () => {
       setPageLoading(false);
     }
   };
-
-  // --- Handlers for UI ---
+  
   const handleAddNewClick = () => { setStudentToEdit(null); setFormModalOpen(true); };
   const handleEditClick = (student) => { setStudentToEdit(student); setFormModalOpen(true); };
   const handleDeleteClick = (student) => { setStudentToDelete(student); setDeleteModalOpen(true); };
   const handleSelectAll = (e) => setSelectedStudents(e.target.checked ? students.map(s => s.id) : []);
   const handleSelectStudent = (id) => setSelectedStudents(prev => prev.includes(id) ? prev.filter(sid => sid !== id) : [...prev, id]);
 
-  // --- Render Logic ---
   if (contextLoading) return <div style={{ textAlign: 'center', padding: '2rem' }}>Loading student data from Google...</div>;
   if (error) return <div style={{ textAlign: 'center', padding: '2rem', color: 'red' }}>Error: {error}</div>;
 
@@ -133,7 +118,10 @@ const StudentList = () => {
         {students.map(student => (
           <div key={student.id} className="student-card">
             <input type="checkbox" className="student-checkbox" checked={selectedStudents.includes(student.id)} onChange={() => handleSelectStudent(student.id)} />
-            <FaUserCircle className="student-avatar" />
+            
+            {/* --- THIS IS THE CHANGED LINE --- */}
+            <img src={newAvatar} alt="Student Avatar" className="student-avatar-img" />
+
             <h3 className="student-name">{student.name}</h3>
             <p className="student-id">{student.id}</p>
             <div className="student-details">

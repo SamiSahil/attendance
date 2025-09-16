@@ -1,6 +1,6 @@
 /* src/pages/StudentList.css */
 .student-list-container {
-  padding: 1rem 0; /* Use vertical padding for mobile */
+  padding: 1rem 0;
 }
 
 .toolbar {
@@ -8,16 +8,16 @@
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1.5rem;
-  padding: 0 0.5rem; /* Add some side padding for the buttons */
+  padding: 0 0.5rem;
 }
 
 .toolbar > .btn {
-  width: 100%; /* Make "Add New" button full width */
+  width: 100%;
 }
 
 .toolbar-right {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two equal columns for Refresh/Delete */
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
   width: 100%;
 }
@@ -26,7 +26,7 @@
   background-color: var(--secondary-bg);
   padding: 1rem 1.5rem;
   border-radius: 8px;
-  margin: 0 0.5rem 1.5rem 0.5rem; /* Match side padding */
+  margin: 0 0.5rem 1.5rem 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -45,7 +45,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 0 0.5rem; /* Match side padding */
+  padding: 0 0.5rem;
 }
 
 .student-card {
@@ -65,11 +65,15 @@
   height: 20px;
 }
 
-.student-avatar {
-  font-size: 5rem;
-  color: #4b5563; /* Softer icon color from screenshot */
+/* --- THIS IS THE NEW/UPDATED STYLE SECTION --- */
+.student-avatar-img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%; /* Makes the image circular */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
   margin-bottom: 1rem;
 }
+/* We no longer need the old .student-avatar class */
 
 .student-name {
   font-size: 1.25rem;
@@ -130,5 +134,3 @@
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   }
 }
-
-   
