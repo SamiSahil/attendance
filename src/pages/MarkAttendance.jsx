@@ -4,13 +4,10 @@ import { recordAttendance } from '../services/googleSheetService';
 import Button from '../components/Button';
 import SuccessToast from '../components/SuccessToast';
 import './MarkAttendance.css';
-import avatarPlaceholder from '../assets/young.png'; // <-- 1. IMPORT THE IMAGE
+import newAvatar from '../assets/young.png'; // Using the new avatar image
 
 const MarkAttendance = () => {
-  // --- Central State from Context ---
   const { students, attendance, loading: contextLoading, error, refreshData } = useData();
-
-  // --- UI State for this page ---
   const [pageLoading, setPageLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [todaysAttendance, setTodaysAttendance] = useState({});
@@ -18,12 +15,10 @@ const MarkAttendance = () => {
 
   const showToast = (message) => setToastInfo({ isVisible: true, message });
 
-  // --- Initial Data Load ---
   useEffect(() => {
     refreshData();
   }, [refreshData]);
 
-  // Syncs the radio buttons with saved data when the date or master attendance log changes
   useEffect(() => {
     const recordsForDate = attendance[selectedDate] || [];
     const statusMap = recordsForDate.reduce((acc, record) => {
@@ -41,7 +36,7 @@ const MarkAttendance = () => {
     setPageLoading(true);
     const recordsToSave = students.map(student => ({
       studentId: student.id,
-      status: todaysAttendance[student.id] || 'P' // Default to Present if untouched
+      status: todaysAttendance[student.id] || 'P'
     }));
 
     try {
@@ -95,17 +90,26 @@ const MarkAttendance = () => {
           </div>
           {students.map(student => (
             <div className="table-row" key={student.id}>
+              {/* --- THIS IS THE CORRECTED JSX STRUCTURE --- */}
+              
+              {/* Item 1: Student Info (Name and Avatar) */}
               <div className="student-info">
                  <div className="name-wrapper">
-                    {/* 2. USE THE IMPORTED VARIABLE */}
-                    <img src={avatarPlaceholder} alt="avatar" />
+                    <img src={newAvatar} alt="avatar" />
                     <span>{student.name}</span>
                 </div>
-                <div className="total-presents">
+                {/* This div is now only visible on mobile */}
+                <div className="total-presents-mobile">
                   {calculateTotalPresents(student.id)}
                 </div>
               </div>
+              
+              {/* Item 2: Total Presents (Desktop Only) */}
+              <div className="total-presents-desktop">
+                {calculateTotalPresents(student.id)}
+              </div>
              
+              {/* Item 3: Status Selector */}
               <div className="status-selector">
                 {['P', 'A', 'L'].map(status => (
                   <label key={status}>

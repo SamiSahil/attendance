@@ -85,10 +85,14 @@
   background-color: #4b5563;
 }
 
-.student-info .total-presents {
+.total-presents-mobile {
   color: var(--text-secondary);
   font-size: 0.9rem;
   padding-left: 50px;
+}
+
+.total-presents-desktop {
+  display: none; /* Hide this on mobile by default */
 }
 
 .status-selector {
@@ -114,27 +118,18 @@
   transition: all 0.2s;
 }
 
-/* --- THIS IS THE CORRECTED SECTION --- */
-
-/* Style for PRESENT when selected */
 .status-selector input[type="radio"]:checked + .status-label.status-p {
   background-color: var(--accent-blue);
   color: white;
 }
-
-/* ADDED: Style for ABSENT when selected */
 .status-selector input[type="radio"]:checked + .status-label.status-a {
   background-color: var(--accent-red);
   color: white;
 }
-
-/* ADDED: Style for LEAVE when selected */
 .status-selector input[type="radio"]:checked + .status-label.status-l {
   background-color: var(--accent-yellow);
   color: white;
 }
-
-/* --- END OF CORRECTION --- */
 
 .submit-action {
   margin-top: 2rem;
@@ -148,29 +143,49 @@
 /* --- Desktop Styles --- */
 @media (min-width: 768px) {
   .stats-bar span { flex-basis: auto; }
-  .attendance-table .table-header {
+  
+  .attendance-table .table-header, .table-row {
     display: grid;
     grid-template-columns: 2fr 1fr 2fr;
+    align-items: center;
+  }
+  
+  .attendance-table .table-header {
     padding: 0 1rem 1rem;
     font-weight: 600;
     color: var(--text-secondary);
     border-bottom: 1px solid var(--border-color);
     margin-bottom: 1rem;
   }
-  .attendance-table .table-header span:last-child,
-  .table-row .status-selector {
-    justify-self: center;
-  }
+  
   .table-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr 2fr;
     margin-bottom: 0;
     padding: 1rem;
     border-radius: 0;
     background: none;
     border-bottom: 1px solid var(--border-color);
   }
-  .student-info { flex-direction: row; }
-  .student-info .total-presents { display: none; }
+
+  .student-info {
+    flex-direction: row; 
+    gap: 1rem;
+  }
+
+  .total-presents-mobile {
+    display: none; /* Hide the mobile version */
+  }
+
+  .total-presents-desktop {
+    display: block; /* Show the desktop version */
+    text-align: center; /* Center the number in its column */
+    color: var(--text-secondary);
+    font-size: 1rem;
+  }
+  
+  .attendance-table .table-header span:last-child,
+  .table-row .status-selector {
+    justify-self: center; /* Center the status buttons in their column */
+  }
+  
   .submit-action .btn { width: auto; }
 }
