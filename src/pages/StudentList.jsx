@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FaPlus, FaTrash, FaSync, FaEdit } from 'react-icons/fa'; // FaUserCircle is no longer needed
+import { FaPlus, FaTrash, FaSync, FaEdit } from 'react-icons/fa';
 import { useData } from '../contexts/DataContext';
 import { addStudent, updateStudent, deleteStudent, deleteMultipleStudents } from '../services/googleSheetService';
 import Button from '../components/Button';
 import StudentFormModal from '../components/StudentFormModal';
 import DeleteModal from '../components/DeleteModal';
 import SuccessToast from '../components/SuccessToast';
+import SkeletonCard from '../components/SkeletonCard';
 import './StudentList.css';
-import newAvatar from '../assets/young.png'; // <-- IMPORT THE NEW IMAGE
+import newAvatar from '../assets/young.png';
 
 const StudentList = () => {
   const { students, loading: contextLoading, error, refreshData } = useData();
@@ -25,7 +26,6 @@ const StudentList = () => {
     refreshData();
   }, [refreshData]);
 
-  // All handlers (handleSaveStudent, confirmDelete, etc.) remain the same...
   const handleSaveStudent = async (formData) => {
     setFormModalOpen(false);
     setPageLoading(true);
@@ -85,7 +85,23 @@ const StudentList = () => {
   const handleSelectAll = (e) => setSelectedStudents(e.target.checked ? students.map(s => s.id) : []);
   const handleSelectStudent = (id) => setSelectedStudents(prev => prev.includes(id) ? prev.filter(sid => sid !== id) : [...prev, id]);
 
-  if (contextLoading) return <div style={{ textAlign: 'center', padding: '2rem' }}>Loading student data from Google...</div>;
+  if (contextLoading) {
+    return (
+      <div className="student-list-container">
+        <div className="toolbar-placeholder">
+          <div className="skeleton-button large"></div>
+          <div className="toolbar-right-placeholder">
+            <div className="skeleton-button"></div>
+            <div className="skeleton-button"></div>
+          </div>
+        </div>
+        <div className="student-grid">
+          {Array.from({ length: 6 }).map((_, index) => <SkeletonCard key={index} />)}
+        </div>
+      </div>
+    );
+  }
+
   if (error) return <div style={{ textAlign: 'center', padding: '2rem', color: 'red' }}>Error: {error}</div>;
 
   return (
@@ -100,7 +116,12 @@ const StudentList = () => {
           <FaPlus /> Add New Student
         </Button>
         <div className="toolbar-right">
-          <Button variant="secondary" onClick={() => refreshData(true).then(() => showToast('List refreshed!'))}>
+          {/*
+            --- THIS IS THE CORRECTED LINE ---
+            The refreshData function from the context doesn't take any arguments.
+            We call it, and *then* we show the toast message.
+          */}
+          <Button variant="secondary" onClick={() => refreshData().then(() => showToast('List refreshed!'))}>
             <FaSync /> Refresh List
           </Button>
           <Button variant="danger" onClick={handleDeleteSelected}>
@@ -118,10 +139,7 @@ const StudentList = () => {
         {students.map(student => (
           <div key={student.id} className="student-card">
             <input type="checkbox" className="student-checkbox" checked={selectedStudents.includes(student.id)} onChange={() => handleSelectStudent(student.id)} />
-            
-            {/* --- THIS IS THE CHANGED LINE --- */}
             <img src={newAvatar} alt="Student Avatar" className="student-avatar-img" />
-
             <h3 className="student-name">{student.name}</h3>
             <p className="student-id">{student.id}</p>
             <div className="student-details">

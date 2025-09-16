@@ -1,0 +1,60 @@
+/* src/components/SkeletonCard.css */
+@keyframes skeleton-loading {
+  0% { background-color: #374151; } /* var(--secondary-bg) */
+  100% { background-color: #4b5563; } /* var(--border-color) */
+}
+
+.skeleton-card {
+  background-color: var(--secondary-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.skeleton-avatar {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  margin: 0 auto 1rem auto;
+  animation: skeleton-loading 1.5s linear infinite alternate;
+}
+
+.skeleton-text {
+  height: 20px;
+  width: 70%;
+  margin: 0.5rem auto;
+  border-radius: 4px;
+  animation: skeleton-loading 1.5s linear infinite alternate;
+}
+
+.skeleton-text.short {
+  width: 40%;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-details {
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-line {
+  height: 16px;
+  width: 100%;
+  margin: 0.75rem 0;
+  border-radius: 4px;
+  animation: skeleton-loading 1.5s linear infinite alternate;
+}
+
+.skeleton-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.skeleton-button {
+  height: 48px;
+  border-radius: 8px;
+  animation: skeleton-loading 1.5s linear infinite alternate;
+}
