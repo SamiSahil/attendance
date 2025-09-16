@@ -1,0 +1,176 @@
+/* src/pages/MarkAttendance.css */
+.attendance-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.attendance-card {
+  background-color: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.date-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.date-input {
+  background-color: var(--primary-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.stats-bar {
+  display: flex;
+  justify-content: space-around;
+  background-color: var(--primary-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+.stats-bar span {
+  flex-basis: 50%;
+  text-align: center;
+  padding: 0.25rem 0;
+}
+
+.stats-bar .present { color: var(--accent-green); }
+.stats-bar .absent { color: var(--accent-red); }
+.stats-bar .leave { color: var(--accent-yellow); }
+
+.attendance-table .table-header {
+  display: none;
+}
+
+.table-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-bg);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.student-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.student-info .name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.student-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4b5563;
+}
+
+.student-info .total-presents {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding-left: 50px;
+}
+
+.status-selector {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.status-selector input[type="radio"] {
+  display: none;
+}
+
+.status-label {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border: 2px solid transparent;
+  background-color: var(--secondary-bg);
+  transition: all 0.2s;
+}
+
+/* --- THIS IS THE CORRECTED SECTION --- */
+
+/* Style for PRESENT when selected */
+.status-selector input[type="radio"]:checked + .status-label.status-p {
+  background-color: var(--accent-blue);
+  color: white;
+}
+
+/* ADDED: Style for ABSENT when selected */
+.status-selector input[type="radio"]:checked + .status-label.status-a {
+  background-color: var(--accent-red);
+  color: white;
+}
+
+/* ADDED: Style for LEAVE when selected */
+.status-selector input[type="radio"]:checked + .status-label.status-l {
+  background-color: var(--accent-yellow);
+  color: white;
+}
+
+/* --- END OF CORRECTION --- */
+
+.submit-action {
+  margin-top: 2rem;
+  display: flex;
+}
+
+.submit-action .btn {
+  width: 100%;
+}
+
+/* --- Desktop Styles --- */
+@media (min-width: 768px) {
+  .stats-bar span { flex-basis: auto; }
+  .attendance-table .table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    padding: 0 1rem 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+  }
+  .attendance-table .table-header span:last-child,
+  .table-row .status-selector {
+    justify-self: center;
+  }
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    margin-bottom: 0;
+    padding: 1rem;
+    border-radius: 0;
+    background: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .student-info { flex-direction: row; }
+  .student-info .total-presents { display: none; }
+  .submit-action .btn { width: auto; }
+}

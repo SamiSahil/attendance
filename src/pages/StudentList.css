@@ -1,0 +1,134 @@
+/* src/pages/StudentList.css */
+.student-list-container {
+  padding: 1rem 0; /* Use vertical padding for mobile */
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem; /* Add some side padding for the buttons */
+}
+
+.toolbar > .btn {
+  width: 100%; /* Make "Add New" button full width */
+}
+
+.toolbar-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns for Refresh/Delete */
+  gap: 1rem;
+  width: 100%;
+}
+
+.select-all-bar {
+  background-color: var(--secondary-bg);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin: 0 0.5rem 1.5rem 0.5rem; /* Match side padding */
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.select-all-bar input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.select-all-bar label {
+  font-weight: 500;
+}
+
+.student-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0 0.5rem; /* Match side padding */
+}
+
+.student-card {
+  background-color: var(--secondary-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.student-checkbox {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 20px;
+  height: 20px;
+}
+
+.student-avatar {
+  font-size: 5rem;
+  color: #4b5563; /* Softer icon color from screenshot */
+  margin-bottom: 1rem;
+}
+
+.student-name {
+  font-size: 1.25rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.student-id {
+  color: var(--text-secondary);
+  margin: 0.25rem 0 1.5rem 0;
+}
+
+.student-details {
+  text-align: left;
+  margin-bottom: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.75rem;
+}
+
+.student-details p {
+  margin: 0.75rem 0;
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.student-details p strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* --- Desktop Styles --- */
+@media (min-width: 768px) {
+  .student-list-container {
+    padding: 1rem;
+  }
+  .toolbar, .student-grid, .select-all-bar {
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .toolbar {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .toolbar > .btn, .toolbar-right {
+    width: auto;
+  }
+  .student-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+   

@@ -1,0 +1,25 @@
+.navbar {
+  background-color: var(--secondary-bg);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.navbar a {
+  color: var(--text-secondary);
+  font-weight: 500;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.navbar a:hover {
+  color: var(--text-primary);
+}
+
+.navbar a.active {
+  color: var(--accent-blue);
+  border-bottom-color: var(--accent-blue);
+}
