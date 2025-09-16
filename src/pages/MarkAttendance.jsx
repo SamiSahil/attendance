@@ -4,6 +4,7 @@ import { recordAttendance } from '../services/googleSheetService';
 import Button from '../components/Button';
 import SuccessToast from '../components/SuccessToast';
 import './MarkAttendance.css';
+import avatarPlaceholder from '../assets/young.png'; // <-- 1. IMPORT THE IMAGE
 
 const MarkAttendance = () => {
   // --- Central State from Context ---
@@ -44,13 +45,12 @@ const MarkAttendance = () => {
     }));
 
     try {
-      // --- PERMANENT ATTENDANCE RECORDING ---
       const result = await recordAttendance({ date: selectedDate, records: recordsToSave });
       showToast(result.message);
     } catch (err) {
       showToast(`Error: ${err.message}`);
     } finally {
-      await refreshData(); // Refresh all data to get latest attendance records
+      await refreshData();
       setPageLoading(false);
     }
   };
@@ -68,7 +68,6 @@ const MarkAttendance = () => {
   const absentCount = Object.values(todaysAttendance).filter(s => s === 'A').length;
   const leaveCount = Object.values(todaysAttendance).filter(s => s === 'L').length;
 
-  // --- Render Logic ---
   if (contextLoading) return <div style={{ textAlign: 'center', padding: '2rem' }}>Loading data from Google...</div>;
   if (error) return <div style={{ textAlign: 'center', padding: '2rem', color: 'red' }}>Error: {error}</div>;
 
@@ -98,7 +97,8 @@ const MarkAttendance = () => {
             <div className="table-row" key={student.id}>
               <div className="student-info">
                  <div className="name-wrapper">
-                    <img src="/src/assets/avatar-placeholder.png" alt="avatar" />
+                    {/* 2. USE THE IMPORTED VARIABLE */}
+                    <img src={avatarPlaceholder} alt="avatar" />
                     <span>{student.name}</span>
                 </div>
                 <div className="total-presents">

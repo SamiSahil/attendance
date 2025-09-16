@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import Input from './Input';
 import './Modal.css';
+import avatarPlaceholder from '../assets/young.png'; // <-- 1. IMPORT THE IMAGE
 
-// The initial blank state for the form
 const INITIAL_STATE = {
   name: '', email: '', class: '', section: '', phone: '', guardian: ''
 };
@@ -11,12 +11,9 @@ const INITIAL_STATE = {
 const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
   const [formData, setFormData] = useState(INITIAL_STATE);
 
-  // CRITICAL: This effect runs when the modal opens or the student prop changes.
   useEffect(() => {
     if (isOpen) {
       if (student) {
-        // If there's a student prop, we are in "edit" mode.
-        // Set the form data to this student's details.
         setFormData({
           name: student.name || '',
           email: student.email || '',
@@ -26,12 +23,10 @@ const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
           guardian: student.guardian || '',
         });
       } else {
-        // If there's no student prop, we are in "add" mode.
-        // Reset the form to its initial blank state.
         setFormData(INITIAL_STATE);
       }
     }
-  }, [student, isOpen]); // The effect depends on `student` and `isOpen`
+  }, [student, isOpen]);
 
   if (!isOpen) return null;
 
@@ -45,7 +40,6 @@ const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
     onSave(formData);
   };
 
-  // The title of the modal is now dynamic
   const modalTitle = student ? 'Edit Student' : 'Add New Student';
 
   return (
@@ -68,7 +62,8 @@ const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
             <div className="input-group">
                 <label>Profile Photo</label>
                 <div className="file-input-wrapper">
-                    <img src="/src/assets/avatar-placeholder.png" alt="avatar" className="avatar-preview" />
+                    {/* 2. USE THE IMPORTED VARIABLE */}
+                    <img src={avatarPlaceholder} alt="avatar" className="avatar-preview" />
                     <input type="file" id="profilePhoto" className="file-input" />
                     <label htmlFor="profilePhoto" className="file-label">Choose File</label>
                     <span>No file chosen</span>
