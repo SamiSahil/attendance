@@ -1,6 +1,5 @@
-// src/App.jsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { DataProvider } from './contexts/DataContext'; // Import the provider
+import { DataProvider } from './contexts/DataContext';
 import AppLayout from './components/AppLayout';
 import StudentList from './pages/StudentList';
 import MarkAttendance from './pages/MarkAttendance';
@@ -8,15 +7,13 @@ import AttendanceReport from './pages/AttendanceReport';
 
 function App() {
   return (
-    <DataProvider> {/* Wrap the entire application */}
+    <DataProvider>
       <div className="app">
-        <BrowserRouter>
+        <BrowserRouter basename="/attendance">
           <Routes>
-            <Route element={<AppLayout />}>
-              <Route index element={<StudentList />} />
-              <Route path="attendance" element={<MarkAttendance />} />
-              <Route path="report" element={<AttendanceReport />} />
-            </Route>
+            <Route path="/" element={<AppLayout><StudentList /></AppLayout>} />
+            <Route path="/attendance" element={<AppLayout><MarkAttendance /></AppLayout>} />
+            <Route path="/report" element={<AppLayout><AttendanceReport /></AppLayout>} />
           </Routes>
         </BrowserRouter>
       </div>

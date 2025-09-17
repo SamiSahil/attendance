@@ -1,15 +1,16 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './AppLayout.css';
 
-const AppLayout = () => (
+const AppLayout = ({ children }) => (
   <div>
     <nav className="navbar">
-      <NavLink to="/">Student List</NavLink>
+           <NavLink to="/">Student List</NavLink>
       <NavLink to="/attendance">Mark Attendance</NavLink>
       <NavLink to="/report">Attendance Report</NavLink>
     </nav>
     <main className="content">
-      <Outlet />
+     
+      {children}
     </main>
   </div>
 );
