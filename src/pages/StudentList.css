@@ -65,20 +65,21 @@
   height: 20px;
 }
 
-/* --- THIS IS THE NEW/UPDATED STYLE SECTION --- */
 .student-avatar-img {
   width: 5rem;
   height: 5rem;
-  border-radius: 50%; /* Makes the image circular */
-  object-fit: cover; /* Ensures the image covers the area without distortion */
+  border-radius: 50%;
+  object-fit: cover;
   margin-bottom: 1rem;
 }
-/* We no longer need the old .student-avatar class */
 
 .student-name {
   font-size: 1.25rem;
   margin: 0;
   font-weight: 600;
+  /* --- FIX FOR LONG NAMES --- */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .student-id {
@@ -99,11 +100,15 @@
   justify-content: space-between;
   color: var(--text-secondary);
   font-size: 0.95rem;
+  /* --- FIX FOR LONG EMAILS/DETAILS --- */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .student-details p strong {
   color: var(--text-primary);
   font-weight: 500;
+  margin-right: 0.5rem; /* Add some space between key and value */
 }
 
 .card-actions {

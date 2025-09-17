@@ -26,7 +26,7 @@
 .date-filters label {
   color: var(--text-primary);
   font-weight: 500;
-  flex-basis: 80px; /* Give labels a fixed width */
+  flex-basis: 80px;
 }
 
 .date-filters .date-input {
@@ -40,7 +40,7 @@
 }
 
 .report-header {
-  display: none; /* Hide on mobile */
+  display: none;
 }
 
 .report-row {
@@ -59,6 +59,9 @@
   margin-bottom: 0.5rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
+  /* --- FIX FOR LONG NAMES --- */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .report-row > div {
@@ -114,10 +117,10 @@
     border-bottom: none;
   }
   .report-row > div {
-    display: contents; /* This removes the flex container for grid */
+    display: contents;
   }
   .report-row .stat-label {
-    display: none; /* Hide labels as they are in the header */
+    display: none;
   }
   .report-row .stat-value {
     text-align: center;
