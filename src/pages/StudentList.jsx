@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaPlus, FaTrash, FaSync, FaEdit } from 'react-icons/fa';
 import { useData } from '../contexts/DataContext';
 import { addStudent, updateStudent, deleteStudent, deleteMultipleStudents } from '../services/googleSheetService';
@@ -32,10 +32,10 @@ const StudentList = () => {
     try {
       let result;
       if (studentToEdit) {
-        const dataToUpdate = { ...studentToEdit, ...formData };
+        const dataToUpdate = { ...studentToEdit, ...formData, 'Tuition Fee': formData.tuitionFee };
         result = await updateStudent(dataToUpdate);
       } else {
-        const dataToAdd = { Name: formData.name, Class: formData.class, Section: formData.section, Email: formData.email, Phone: formData.phone, 'Guardian Name': formData.guardian };
+        const dataToAdd = { Name: formData.name, Class: formData.class, Section: formData.section, Email: formData.email, Phone: formData.phone, 'Guardian Name': formData.guardian, 'Tuition Fee': formData.tuitionFee };
         result = await addStudent(dataToAdd);
       }
       showToast(result.message);
@@ -112,20 +112,16 @@ const StudentList = () => {
       <DeleteModal isOpen={isDeleteModalOpen} onClose={() => setDeleteModalOpen(false)} onConfirm={confirmDelete} studentName={studentToDelete?.name} />
 
       <div className="toolbar">
-        <Button variant="primary" onClick={handleAddNewClick}>
-          <FaPlus /> Add New Student
-        </Button>
-        <div className="toolbar-right">
-          {/*
-            --- THIS IS THE CORRECTED LINE ---
-            The refreshData function from the context doesn't take any arguments.
-            We call it, and *then* we show the toast message.
-          */}
+        <h1 className="page-title">Student List</h1>
+        <div className="toolbar-actions">
           <Button variant="secondary" onClick={() => refreshData().then(() => showToast('List refreshed!'))}>
             <FaSync /> Refresh List
           </Button>
           <Button variant="danger" onClick={handleDeleteSelected}>
             <FaTrash /> Delete Selected
+          </Button>
+          <Button variant="primary" onClick={handleAddNewClick}>
+            <FaPlus /> Add New Student
           </Button>
         </div>
       </div>
@@ -145,6 +141,7 @@ const StudentList = () => {
             <div className="student-details">
               <p><strong>Class:</strong> {student.class}</p>
               <p><strong>Section:</strong> {student.section}</p>
+              <p><strong>Tuition Fee:</strong> ${student.tuitionFee}</p>
               <p><strong>Email:</strong> {student.email}</p>
               <p><strong>Phone:</strong> {student.phone}</p>
               <p><strong>Guardian:</strong> {student.guardian}</p>

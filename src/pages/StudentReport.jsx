@@ -1,28 +1,26 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useData } from '../contexts/DataContext';
-import './AttendanceReport.css';
+import './StudentReport.css';
 
-const AttendanceReport = () => {
-  // --- Central State from Context ---
-  const { students, attendance, loading, error, refreshData } = useData();
+const StudentReport = () => {
+  const { students, attendance, payments, loading, error, refreshData } = useData();
 
-  // --- UI State for this page ---
   const [startDate, setStartDate] = useState(() => {
     const d = new Date();
-    d.setMonth(d.getMonth() - 1); // Default start date: one month ago
+    d.setMonth(d.getMonth() - 1);
     return d.toISOString().split('T')[0];
   });
-  const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]); // Default end date: today
+  const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
 
-  // --- Initial Data Load ---
   useEffect(() => {
     refreshData();
   }, [refreshData]);
 
-  // --- Memoized Calculation for Report ---
   const reportData = useMemo(() => {
     return students.map(student => {
-      let present = 0, absent = 0, leave = 0;
+      let present = 0, absent = 0, leave = 0, totalPaid = 0;
+
+      // Calculate Attendance
       Object.entries(attendance).forEach(([date, records]) => {
         if (date >= startDate && date <= endDate) {
           const record = records.find(r => r.studentId === student.id);
@@ -33,17 +31,29 @@ const AttendanceReport = () => {
           }
         }
       });
-      return { ...student, present, absent, leave };
-    });
-  }, [students, attendance, startDate, endDate]);
 
-  // --- Render Logic ---
+      // Calculate Payments
+      Object.entries(payments).forEach(([date, records]) => {
+        if (date >= startDate && date <= endDate) {
+          const paymentRecord = records.find(r => r.studentId === student.id);
+          if (paymentRecord) {
+            totalPaid += Number(paymentRecord.amount);
+          }
+        }
+      });
+      
+      const due = student.tuitionFee - totalPaid;
+
+      return { ...student, present, absent, leave, totalPaid, due };
+    });
+  }, [students, attendance, payments, startDate, endDate]);
+
   if (loading) return <div style={{ textAlign: 'center', padding: '2rem' }}>Loading report data...</div>;
   if (error) return <div style={{ textAlign: 'center', padding: '2rem', color: 'red' }}>Error: {error}</div>;
 
   return (
     <div className="report-container">
-      <h2>Student Attendance Report</h2>
+      <h2>Student Report</h2>
       <div className="report-card">
         <div className="date-filters">
           <div>
@@ -59,25 +69,20 @@ const AttendanceReport = () => {
         <div className="report-table">
           <div className="report-header">
             <span>Student Name</span>
-            <span>Total Present</span>
-            <span>Total Absent</span>
-            <span>Total Leave</span>
+            <span>Present</span>
+            <span>Absent</span>
+            <span>Tuition Fee</span>
+            <span>Paid</span>
+            <span>Dues</span>
           </div>
           {reportData.map(student => (
             <div className="report-row" key={student.id}>
               <div className="student-name-report">{student.name}</div>
-              <div>
-                <span className="stat-label">Total Present:</span>
-                <span className="stat-value count-present">{student.present}</span>
-              </div>
-              <div>
-                <span className="stat-label">Total Absent:</span>
-                <span className="stat-value count-absent">{student.absent}</span>
-              </div>
-               <div>
-                <span className="stat-label">Total Leave:</span>
-                <span className="stat-value count-leave">{student.leave}</span>
-              </div>
+              <div><span className="stat-label">Present:</span><span className="stat-value count-present">{student.present}</span></div>
+              <div><span className="stat-label">Absent:</span><span className="stat-value count-absent">{student.absent}</span></div>
+              <div><span className="stat-label">Fee:</span><span className="stat-value">${student.tuitionFee}</span></div>
+              <div><span className="stat-label">Paid:</span><span className="stat-value count-present">${student.totalPaid}</span></div>
+              <div><span className="stat-label">Dues:</span><span className={`stat-value ${student.due > 0 ? 'count-absent' : ''}`}>${student.due}</span></div>
             </div>
           ))}
         </div>
@@ -86,4 +91,4 @@ const AttendanceReport = () => {
   );
 };
 
-export default AttendanceReport;
+export default StudentReport;

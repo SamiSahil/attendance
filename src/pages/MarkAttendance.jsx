@@ -4,7 +4,7 @@ import { recordAttendance } from '../services/googleSheetService';
 import Button from '../components/Button';
 import SuccessToast from '../components/SuccessToast';
 import './MarkAttendance.css';
-import newAvatar from '../assets/young.png'; // Using the new avatar image
+import newAvatar from '../assets/young.png';
 
 const MarkAttendance = () => {
   const { students, attendance, loading: contextLoading, error, refreshData } = useData();
@@ -59,11 +59,11 @@ const MarkAttendance = () => {
 
   const getStudentStatus = (studentId) => todaysAttendance[studentId] || 'P';
 
-  const presentCount = Object.values(todaysAttendance).filter(s => s === 'P').length;
-  const absentCount = Object.values(todaysAttendance).filter(s => s === 'A').length;
-  const leaveCount = Object.values(todaysAttendance).filter(s => s === 'L').length;
+  const presentCount = students.length > 0 ? Object.values(todaysAttendance).filter(s => s === 'P').length : 0;
+  const absentCount = students.length > 0 ? Object.values(todaysAttendance).filter(s => s === 'A').length : 0;
+  const leaveCount = students.length > 0 ? Object.values(todaysAttendance).filter(s => s === 'L').length : 0;
 
-  if (contextLoading) return <div style={{ textAlign: 'center', padding: '2rem' }}>Loading data from Google...</div>;
+  if (contextLoading) return <div style={{ textAlign: 'center', padding: '2rem' }}>Loading data...</div>;
   if (error) return <div style={{ textAlign: 'center', padding: '2rem', color: 'red' }}>Error: {error}</div>;
 
   return (
@@ -90,26 +90,22 @@ const MarkAttendance = () => {
           </div>
           {students.map(student => (
             <div className="table-row" key={student.id}>
-              {/* --- THIS IS THE CORRECTED JSX STRUCTURE --- */}
-              
-              {/* Item 1: Student Info (Name and Avatar) */}
+              {/* --- CORRECTED JSX STRUCTURE --- */}
               <div className="student-info">
-                 <div className="name-wrapper">
-                    <img src={newAvatar} alt="avatar" />
-                    <span>{student.name}</span>
-                </div>
-                {/* This div is now only visible on mobile */}
-                <div className="total-presents-mobile">
-                  {calculateTotalPresents(student.id)}
+                <img src={newAvatar} alt="avatar" />
+                <div className="student-details-attendance">
+                  <span className="student-name">{student.name}</span>
+                  <span className="total-presents-mobile">
+                    Total Presents: {calculateTotalPresents(student.id)}
+                  </span>
                 </div>
               </div>
               
-              {/* Item 2: Total Presents (Desktop Only) */}
+              {/* This is hidden on mobile and shown on desktop */}
               <div className="total-presents-desktop">
                 {calculateTotalPresents(student.id)}
               </div>
              
-              {/* Item 3: Status Selector */}
               <div className="status-selector">
                 {['P', 'A', 'L'].map(status => (
                   <label key={status}>

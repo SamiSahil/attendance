@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Button from './Button';
 import Input from './Input';
 import './Modal.css';
-import avatarPlaceholder from '../assets/young.png'; // <-- 1. IMPORT THE IMAGE
+import avatarPlaceholder from '../assets/young.png';
 
 const INITIAL_STATE = {
-  name: '', email: '', class: '', section: '', phone: '', guardian: ''
+  name: '', email: '', class: '', section: '', phone: '', guardian: '', tuitionFee: ''
 };
 
 const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
@@ -21,6 +21,7 @@ const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
           section: student.section || '',
           phone: student.phone || '',
           guardian: student.guardian || '',
+          tuitionFee: student.tuitionFee || '', // <-- ADDED
         });
       } else {
         setFormData(INITIAL_STATE);
@@ -57,12 +58,14 @@ const StudentFormModal = ({ isOpen, onClose, onSave, student }) => {
               <Input label="Class" id="class" value={formData.class} onChange={handleChange} />
               <Input label="Section" id="section" value={formData.section} onChange={handleChange} />
             </div>
-            <Input label="Phone" id="phone" value={formData.phone} onChange={handleChange} />
+            <div className="form-row">
+                <Input label="Phone" id="phone" value={formData.phone} onChange={handleChange} />
+                <Input label="Tuition Fee" id="tuitionFee" type="number" value={formData.tuitionFee} onChange={handleChange} />
+            </div>
             <Input label="Guardian Name" id="guardian" value={formData.guardian} onChange={handleChange} />
             <div className="input-group">
                 <label>Profile Photo</label>
                 <div className="file-input-wrapper">
-                    {/* 2. USE THE IMPORTED VARIABLE */}
                     <img src={avatarPlaceholder} alt="avatar" className="avatar-preview" />
                     <input type="file" id="profilePhoto" className="file-input" />
                     <label htmlFor="profilePhoto" className="file-label">Choose File</label>

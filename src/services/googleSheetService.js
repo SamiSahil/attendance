@@ -18,3 +18,11 @@ export const updateStudent = (studentData) => callApi('updateStudent', studentDa
 export const deleteStudent = (rowIndex) => callApi('deleteStudent', rowIndex);
 export const deleteMultipleStudents = (rowIndices) => callApi('deleteMultipleStudents', rowIndices);
 export const recordAttendance = (attendancePayload) => callApi('recordAttendance', attendancePayload);
+
+/**
+ * NOTE: For this to work, you must update your Google Apps Script
+ * to handle the 'recordPayment' action. It should expect a payload like:
+ * { date: "YYYY-MM-DD", records: [{ studentId: "SI-100", amount: 500 }, ...] }
+ * It also needs to be updated to return a `payments` object in `getInitialData`.
+ */
+export const recordPayment = (paymentPayload) => callApi('recordPayment', paymentPayload);

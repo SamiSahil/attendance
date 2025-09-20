@@ -1,25 +1,59 @@
+/* src/components/AppLayout.css */
+
 .navbar {
   background-color: var(--secondary-bg);
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
+  padding: 1rem; /* Adjusted padding for better mobile spacing */
+  border-radius: 12px;
   display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+
+  /* --- RESPONSIVE FIX (MOBILE FIRST) --- */
+  justify-content: flex-start; /* Align items to the start on mobile */
+  gap: 0.5rem; /* Tighter gap on mobile */
+  overflow-x: auto; /* CRITICAL: Allow horizontal scrolling */
+
+  /* --- Hide the scrollbar for a cleaner look --- */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.navbar::-webkit-scrollbar {
+  display: none;
+}
+/* ------------------------------------------- */
+
 .navbar a {
-  color: var(--text-secondary);
+  color: var(--secondary-text);
   font-weight: 500;
-  padding: 0.5rem 0;
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  position: relative;
+  text-decoration: none;
+  transition: color 0.2s, background-color 0.2s;
+
+  /* --- RESPONSIVE FIX --- */
+  white-space: nowrap; /* Prevent text like "Mark Attendance" from breaking into two lines */
+  flex-shrink: 0; /* Ensure buttons don't shrink and squash the text */
 }
 
 .navbar a:hover {
-  color: var(--text-primary);
+  color: var(--primary-text);
+  background-color: var(--border-color);
 }
 
 .navbar a.active {
-  color: var(--accent-blue);
-  border-bottom-color: var(--accent-blue);
+  color: #FFFFFF;
+  background-color: var(--accent-blue);
+  font-weight: 600;
+}
+
+/* --- DESKTOP STYLES --- */
+/* When the screen is wide enough, center the links again */
+@media (min-width: 550px) {
+  .navbar {
+    justify-content: center;
+    gap: 1rem;
+  }
 }

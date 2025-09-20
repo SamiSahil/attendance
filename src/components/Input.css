@@ -1,26 +1,13 @@
+/* src/components/Input.css */
 .input-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   width: 100%;
+  text-align: left; /* Ensure labels are left-aligned */
 }
 
 .input-group label {
   font-weight: 500;
-  color: var(--text-secondary);
-}
-
-.form-input {
-  background-color: var(--primary-bg);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 0.75rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  width: 100%;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--accent-blue);
+  color: var(--secondary-text);
 }

@@ -8,6 +8,7 @@ export const useData = () => useContext(DataContext);
 export const DataProvider = ({ children }) => {
   const [students, setStudents] = useState([]);
   const [attendance, setAttendance] = useState({});
+  const [payments, setPayments] = useState({}); // <-- ADDED
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,11 +21,13 @@ export const DataProvider = ({ children }) => {
       const formattedStudents = data.students.map(s => ({
         id: s.ID, name: s.Name, class: s.Class, section: s.Section, email: s.Email,
         phone: s.Phone, guardian: s['Guardian Name'], photoUrl: s['Photo URL'],
+        tuitionFee: s['Tuition Fee'] || 0, // <-- ADDED
         rowIndex: s.rowIndex
       }));
       
       setStudents(formattedStudents);
       setAttendance(data.attendance || {});
+      setPayments(data.payments || {}); // <-- ADDED
     } catch (err) {
       setError(err.message);
     } finally {
@@ -35,9 +38,10 @@ export const DataProvider = ({ children }) => {
   const value = {
     students,
     attendance,
+    payments, // <-- ADDED
     loading,
     error,
-    refreshData: fetchData, // Expose a function to reload data
+    refreshData: fetchData,
   };
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
