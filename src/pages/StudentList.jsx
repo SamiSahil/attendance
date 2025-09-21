@@ -48,11 +48,11 @@ const StudentList = () => {
     }
   };
 
-  const confirmDelete = async () => {
+   const confirmDelete = async () => {
     setDeleteModalOpen(false);
     setPageLoading(true);
     try {
-      const result = await deleteStudent(studentToDelete.rowIndex);
+      const result = await deleteStudent(studentToDelete);
       showToast(result.message);
     } catch (err) {
       showToast(`Error: ${err.message}`);
@@ -64,11 +64,14 @@ const StudentList = () => {
   };
 
   const handleDeleteSelected = async () => {
-    if (selectedStudents.length === 0) { showToast('Please select students to delete.'); return; }
+    if (selectedStudents.length === 0) { 
+      showToast('Please select students to delete.');
+      return;
+    }
     setPageLoading(true);
     try {
-      const rowsToDelete = students.filter(s => selectedStudents.includes(s.id)).map(s => s.rowIndex);
-      const result = await deleteMultipleStudents(rowsToDelete);
+      const studentsToDelete = students.filter(s => selectedStudents.includes(s.id));
+      const result = await deleteMultipleStudents(studentsToDelete);
       showToast(result.message);
     } catch (err) {
       showToast(`Error: ${err.message}`);
@@ -78,6 +81,7 @@ const StudentList = () => {
       setPageLoading(false);
     }
   };
+
   
   const handleAddNewClick = () => { setStudentToEdit(null); setFormModalOpen(true); };
   const handleEditClick = (student) => { setStudentToEdit(student); setFormModalOpen(true); };

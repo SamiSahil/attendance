@@ -15,14 +15,14 @@ const callApi = async (action, payload = {}) => {
 export const getInitialData = () => callApi('getInitialData');
 export const addStudent = (studentData) => callApi('addStudent', studentData);
 export const updateStudent = (studentData) => callApi('updateStudent', studentData);
-export const deleteStudent = (rowIndex) => callApi('deleteStudent', rowIndex);
-export const deleteMultipleStudents = (rowIndices) => callApi('deleteMultipleStudents', rowIndices);
-export const recordAttendance = (attendancePayload) => callApi('recordAttendance', attendancePayload);
 
-/**
- * NOTE: For this to work, you must update your Google Apps Script
- * to handle the 'recordPayment' action. It should expect a payload like:
- * { date: "YYYY-MM-DD", records: [{ studentId: "SI-100", amount: 500 }, ...] }
- * It also needs to be updated to return a `payments` object in `getInitialData`.
- */
+// --- MODIFIED FUNCTION ---
+// Now sends the entire student object to the backend.
+export const deleteStudent = (student) => callApi('deleteStudent', student);
+
+// --- MODIFIED FUNCTION ---
+// Now sends an array of student objects to the backend.
+export const deleteMultipleStudents = (students) => callApi('deleteMultipleStudents', students);
+
+export const recordAttendance = (attendancePayload) => callApi('recordAttendance', attendancePayload);
 export const recordPayment = (paymentPayload) => callApi('recordPayment', paymentPayload);

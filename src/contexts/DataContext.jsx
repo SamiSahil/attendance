@@ -38,7 +38,7 @@ export const DataProvider = ({ children }) => {
   const value = {
     students,
     attendance,
-    payments, // <-- ADDED
+    payments,
     loading,
     error,
     refreshData: fetchData,
