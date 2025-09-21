@@ -145,7 +145,7 @@ const StudentList = () => {
             <div className="student-details">
               <p><strong>Class:</strong> {student.class}</p>
               <p><strong>Section:</strong> {student.section}</p>
-              <p><strong>Tuition Fee:</strong> ${student.tuitionFee}</p>
+              <p><strong>Tuition Fee:</strong>{student.tuitionFee} BDT</p>
               <p><strong>Email:</strong> {student.email}</p>
               <p><strong>Phone:</strong> {student.phone}</p>
               <p><strong>Guardian:</strong> {student.guardian}</p>

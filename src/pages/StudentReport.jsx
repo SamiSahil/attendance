@@ -80,9 +80,9 @@ const StudentReport = () => {
               <div className="student-name-report">{student.name}</div>
               <div><span className="stat-label">Present:</span><span className="stat-value count-present">{student.present}</span></div>
               <div><span className="stat-label">Absent:</span><span className="stat-value count-absent">{student.absent}</span></div>
-              <div><span className="stat-label">Fee:</span><span className="stat-value">${student.tuitionFee}</span></div>
-              <div><span className="stat-label">Paid:</span><span className="stat-value count-present">${student.totalPaid}</span></div>
-              <div><span className="stat-label">Dues:</span><span className={`stat-value ${student.due > 0 ? 'count-absent' : ''}`}>${student.due}</span></div>
+              <div><span className="stat-label">Fee:</span><span className="stat-value">{student.tuitionFee} BDT</span></div>
+              <div><span className="stat-label">Paid:</span><span className="stat-value count-present">{student.totalPaid} BDT</span></div>
+              <div><span className="stat-label">Dues:</span><span className={`stat-value ${student.due > 0 ? 'count-absent' : ''}`}>{student.due} BDT</span></div>
             </div>
           ))}
         </div>
