@@ -80,7 +80,7 @@ const RecordPayment = () => {
                 </div>
               </div>
               <div className="total-presents-desktop">
-                ${student.tuitionFee}
+                {student.tuitionFee} BDT
               </div>
               <div className="status-selector">
                 <input
